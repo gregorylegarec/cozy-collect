@@ -1,11 +1,11 @@
 import React from 'react'
 import DateFns from 'date-fns'
 
-import Button from 'cozy-ui/react/Button'
 import { translate } from 'cozy-ui/react/I18n'
 import Icon from 'cozy-ui/react/Icon'
 
 import DescriptionContent from 'components/DescriptionContent'
+import SyncButton from 'components/SyncButton'
 
 function getDateLabel({ date, t, f }) {
   return f(DateFns.parse(date), t('account.message.synced.date_format'))
@@ -75,7 +75,7 @@ export const KonnectorSync = ({
         />
       }
       {!maintenance && (
-        <Button
+        <SyncButton
           disabled={submitting}
           onClick={onForceConnection}
           label={t('account.forceConnection')}
