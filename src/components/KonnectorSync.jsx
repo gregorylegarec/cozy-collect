@@ -1,11 +1,12 @@
 import React from 'react'
 import DateFns from 'date-fns'
 
+import Button from 'cozy-ui/react/Button'
 import { translate } from 'cozy-ui/react/I18n'
 import Icon from 'cozy-ui/react/Icon'
+import { TriggerLauncher } from 'cozy-harvest-lib'
 
 import DescriptionContent from 'components/DescriptionContent'
-import SyncButton from 'components/SyncButton'
 
 function getDateLabel({ date, t, f }) {
   return f(DateFns.parse(date), t('account.message.synced.date_format'))
@@ -51,7 +52,6 @@ export const KonnectorSync = ({
   lastSuccessDate,
   maintenance,
   submitting,
-  onForceConnection,
   trigger
 }) => {
   const lastSyncMessage =
@@ -75,13 +75,17 @@ export const KonnectorSync = ({
         />
       }
       {!maintenance && (
-        <SyncButton
-          disabled={submitting}
-          onClick={onForceConnection}
-          label={t('account.forceConnection')}
-          subtle
-          icon={<Icon focusable="false" icon="sync" spin={submitting} />}
-        />
+        <TriggerLauncher trigger={trigger} submitting={submitting}>
+          {({ launch, running }) => (
+            <Button
+              disabled={running}
+              label={t('account.forceConnection')}
+              onClick={launch}
+              subtle
+              icon={<Icon focusable="false" icon="sync" spin={running} />}
+            />
+          )}
+        </TriggerLauncher>
       )}
     </div>
   )

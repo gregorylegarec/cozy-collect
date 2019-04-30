@@ -1,11 +1,19 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
 import Button from 'cozy-ui/react/Button'
+import { withLauncher } from 'cozy-harvest-lib'
 
 export class SyncButton extends PureComponent {
   render() {
-    return <Button {...this.props} />
+    const { launchTrigger, trigger } = this.props
+    return <Button {...this.props} onClick={() => launchTrigger(trigger)} />
   }
 }
 
-export default SyncButton
+SyncButton.propTypes = {
+  /** Provider by triggerLauncher **/
+  launchTrigger: PropTypes.func
+}
+
+export default withLauncher(SyncButton)
