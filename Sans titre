@@ -1,0 +1,27 @@
+# OAuth workflow
+
+## OAuthWindow
+
+Open window to `${cozyURL}/accounts/${account_type}/start?scope={$scope}&state=${OAuthStateKey}&nonce=${Date.now()}`
+
+This window will let the stack handle the OAuth process to the remote provider. `OAuthStateKey`  is a localeStorage key.
+
+This window is a popup on web devices and a in-app browser window in mobile apps.
+
+## OAuth redirect
+
+The OAuth provider redirects to the given `redirect_uri`, which is handler by stack.
+
+The stack creates an account containing the oauth token.
+
+Then the stack redirect to the home application: https://github.com/cozy/cozy-stack/blob/master/web/accounts/oauth.go#L61-L69
+
+This behavior must be changed because Harvest may be used in another app.
+
+For now, it is this code which handle the redirection in the Home application : https://github.com/cozy/cozy-home/blob/master/src/targets/browser/index.jsx#L25-L46
+
+Maybe we could make the stack serve this code directly and avoid depending on Home ?
+
+## Account fetching
+
+Once the OAuth window is closed, and the account id has been send to the opener window, Harvest may fetch the account and continue with the existing process (trigger creation and launching)

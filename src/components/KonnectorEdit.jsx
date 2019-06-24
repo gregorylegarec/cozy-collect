@@ -1,7 +1,7 @@
 import React from 'react'
 import has from 'lodash/has'
 
-import { TriggerManager } from 'cozy-harvest-lib'
+import { TriggerManager, withKonnectorModal } from 'cozy-harvest-lib'
 import { translate } from 'cozy-ui/react/I18n'
 import { Tab, Tabs, TabList, TabPanels, TabPanel } from 'cozy-ui/react/Tabs'
 
@@ -133,4 +133,4 @@ export const KonnectorEdit = props => {
   )
 }
 
-export default translate()(KonnectorEdit)
+export default translate()(withKonnectorModal(KonnectorEdit))

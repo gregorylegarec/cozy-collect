@@ -35,7 +35,7 @@ class Home extends Component {
   }
 
   render() {
-    const { wrapper } = this.props
+    const { konnectors, wrapper } = this.props
     return (
       <Main>
         <ScrollToTopOnMount target={wrapper} />
@@ -46,7 +46,7 @@ class Home extends Component {
             })}
           >
             <Applications />
-            <Services />
+            <Services konnectors={konnectors} />
           </div>
         </Content>
         <Switch>

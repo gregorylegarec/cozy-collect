@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 import { translate } from 'cozy-ui/react/I18n'
 import Alerter from 'cozy-ui/react/Alerter'
+import { KonnectorModal } from 'cozy-harvest-lib'
 import Icon from 'cozy-ui/react/Icon'
 import Modal, { ModalContent, ModalHeader } from 'cozy-ui/react/Modal'
 
@@ -105,43 +106,11 @@ class ConnectionManagement extends Component {
     const editing = existingAccount && !createdAccount
     const isInstallSuccess = !editing && isSuccess
     return (
-      <Modal
+      <KonnectorModal
         dismissAction={() => this.gotoParent()}
-        mobileFullscreen
-        size="large"
+        konnector={konnector}
         className={styles['col-account-modal']}
-      >
-        <ModalHeader
-          className={
-            isInstallSuccess ? styles['col-account-success-header'] : ''
-          }
-        >
-          {!isInstallSuccess && (
-            <div className="col-account-connection-header">
-              {backRoute && (
-                <NavLink
-                  to={backRoute}
-                  className="col-account-connection-back"
-                  onClick={this.onEnd}
-                >
-                  <Icon icon={backIcon} />
-                </NavLink>
-              )}
-              <KonnectorHeaderIcon konnector={konnector} center={!editing} />
-            </div>
-          )}
-        </ModalHeader>
-        <ModalContent>
-          <AccountConnection
-            handleDeleteSuccess={this.handleDeleteSuccess}
-            editing={editing}
-            onDone={() => this.gotoParent()}
-            handleConnectionSuccess={this.handleConnectionSuccess}
-            {...this.props}
-            {...this.context}
-          />
-        </ModalContent>
-      </Modal>
+      />
     )
   }
 
@@ -216,7 +185,7 @@ const mapStateToProps = (state, ownProps) => {
     createdAccount,
     existingAccount,
     isCreating: isCreatingConnection(state.connections),
-    konnector: konnector,
+    konnector: { ...konnector, triggers: { data: [trigger] } },
     isRunning: isConnectionRunning(state.connections, trigger),
     lastSuccess: getTriggerLastSuccess(state.cozy, trigger),
     trigger,

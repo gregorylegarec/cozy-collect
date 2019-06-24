@@ -19,6 +19,19 @@ import ConnectionsQueue from 'ducks/connections/components/queue/index'
 const IDLE = 'idle'
 const FETCHING_CONTEXT = 'FETCHING_CONTEXT'
 
+const hydrateKonnectorsWithTriggers = (konnectors, triggers) => {
+  return konnectors.map(konnector => {
+    return {
+      ...konnector,
+      triggers: {
+        data: triggers.filter(
+          t => t.message && t.message.konnector === konnector.slug
+        )
+      }
+    }
+  })
+}
+
 class App extends Component {
   state = {
     error: null,
@@ -101,7 +114,14 @@ class App extends Component {
             <Route
               path="/connected"
               render={() => (
-                <Home base="/connected" wrapper={this.contentWrapper} />
+                <Home
+                  konnectors={hydrateKonnectorsWithTriggers(
+                    konnectors.data,
+                    triggers.data
+                  )}
+                  base="/connected"
+                  wrapper={this.contentWrapper}
+                />
               )}
             />
             <Route exact path="/providers" component={StoreRedirection} />
