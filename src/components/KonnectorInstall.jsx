@@ -80,7 +80,8 @@ export class KonnectorInstall extends Component {
           />
         </div>
       </div>
-  )}
+    )
+  }
 }
 
 const mapStateToProps = (state, ownProps) => ({
